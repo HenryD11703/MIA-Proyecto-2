@@ -1,0 +1,79 @@
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid navB">
+      <span class="navbar-brand mb-0 h1">Lista de Autos</span>
+      <button class="btn btn-outline-primary" (click)="regresar()">Regresar</button>
+    </div>
+  </nav>
+  <div class="container mt-4">
+    <h2 class="mb-4">Autos Registrados</h2>
+  
+    <div class="mb-3">
+      <input type="text" class="form-control" placeholder="Buscar autos..." [(ngModel)]="searchTerm" (input)="searchAutos()">
+    </div>
+  
+    <div class="mb-3">
+      <button class="btn btn-sm btn-outline-secondary me-2" (click)="changeSort('marca')">
+        Ordenar por Marca
+        <i class="bi" [ngClass]="{'bi-arrow-up': sortField === 'marca' && sortDirection === 'asc', 'bi-arrow-down': sortField === 'marca' && sortDirection === 'desc'}"></i>
+      </button>
+      <button class="btn btn-sm btn-outline-secondary me-2" (click)="changeSort('modelo')">
+        Ordenar por Modelo
+        <i class="bi" [ngClass]="{'bi-arrow-up': sortField === 'modelo' && sortDirection === 'asc', 'bi-arrow-down': sortField === 'modelo' && sortDirection === 'desc'}"></i>
+      </button>
+      <button class="btn btn-sm btn-outline-secondary" (click)="changeSort('precio')">
+        Ordenar por Precio
+        <i class="bi" [ngClass]="{'bi-arrow-up': sortField === 'precio' && sortDirection === 'asc', 'bi-arrow-down': sortField === 'precio' && sortDirection === 'desc'}"></i>
+      </button>
+    </div>
+    
+    <div *ngIf="filteredAutos.length === 0" class="alert alert-info">
+      No hay autos registrados en este momento.
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let auto of filteredAutos">
+        <div class="lc-block card shadow-sm bordeC">
+          <div class="card-header d-flex justify-content-between align-items-end py-3 headerC">
+            <div>
+              <span>Marca<br></span>
+              <span class="fw-semibold mb-0">{{ auto.marca }}</span>
+            </div>
+            <span class="badge bg-success-50 border border-success-subtle fw-light text-success-400 bg-verde">{{ auto.modelo }}</span>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush small">
+              <li class="lc-block list-group-item d-flex align-items-center border-0 ps-0 gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
+                  <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                </svg>
+                <p class="mb-0">{{ auto.ciudad }}</p>
+              </li>
+              <li class="lc-block list-group-item d-flex align-items-center border-0 ps-0 gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+                </svg>
+                <p class="mb-0">{{ auto.precio | currency:'USD':'symbol':'1.0-0' }}</p>
+              </li>
+              <li class="lc-block list-group-item d-flex align-items-center border-0 ps-0 gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M2 1a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 5.586V1zm2 3.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z"/>
+                </svg>
+                <p class="mb-0">{{ auto.placa }}</p>
+              </li>
+            </ul>
+          </div>
+          <div class="card-footer bg-gray-50 footerC">
+            <div class="lc-block d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" (click)="confirmarEliminar(auto)">
+                Eliminar Auto
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

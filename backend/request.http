@@ -1,0 +1,13 @@
+POST http://192.168.1.192:3000/usuario/register
+Content-Type: application/json
+
+{
+    "path": "nombre_de_archivo.jpg",
+    "imagen": "datos_de_imagen_base64",
+    "nombre": "Nombre del Usuario",
+    "usuario": "Nombre de Usuario",
+    "correo": "correo@example.com",
+    "contrasena": "password",
+    "confirmar_contraseña": "password",
+    "tipo": "tipo_de_usuario"
+}

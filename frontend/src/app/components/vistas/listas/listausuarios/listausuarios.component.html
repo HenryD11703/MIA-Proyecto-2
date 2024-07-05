@@ -1,0 +1,71 @@
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid navB">
+      <span class="navbar-brand mb-0 h1">Lista de Usuarios</span>
+      <button class="btn btn-outline-primary" (click)="regresar()">Regresar</button>
+    </div>
+  </nav>
+  <div class="container mt-4">
+    <h2 class="mb-4">Usuarios Registrados</h2>
+  
+    <div class="mb-3">
+      <input type="text" class="form-control" placeholder="Buscar usuarios..." [(ngModel)]="searchTerm" (input)="searchUsuarios()">
+    </div>
+  
+    <div class="mb-3">
+      <button class="btn btn-sm btn-outline-secondary me-2" (click)="changeSort('nombre')">
+        Ordenar por Nombre
+        <i class="bi" [ngClass]="{'bi-arrow-up': sortField === 'nombre' && sortDirection === 'asc', 'bi-arrow-down': sortField === 'nombre' && sortDirection === 'desc'}"></i>
+      </button>
+      <button class="btn btn-sm btn-outline-secondary me-2" (click)="changeSort('usuario')">
+        Ordenar por Usuario
+        <i class="bi" [ngClass]="{'bi-arrow-up': sortField === 'usuario' && sortDirection === 'asc', 'bi-arrow-down': sortField === 'usuario' && sortDirection === 'desc'}"></i>
+      </button>
+      <button class="btn btn-sm btn-outline-secondary" (click)="changeSort('tipo')">
+        Ordenar por Tipo
+        <i class="bi" [ngClass]="{'bi-arrow-up': sortField === 'tipo' && sortDirection === 'asc', 'bi-arrow-down': sortField === 'tipo' && sortDirection === 'desc'}"></i>
+      </button>
+    </div>
+    
+    <div *ngIf="filteredUsuarios.length === 0" class="alert alert-info">
+      No hay usuarios registrados en este momento.
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let usuario of filteredUsuarios">
+          <div class="lc-block card shadow-sm bordeC">
+            <div class="card-header d-flex justify-content-between align-items-end py-3 headerC">
+              <div>
+                <span>Nombre<br></span>
+                <span class="fw-semibold mb-0">{{ usuario.nombre }}</span>
+              </div>
+              <span class="badge bg-success-50 border border-success-subtle fw-light text-success-400 bg-verde">{{ usuario.tipo }}</span>
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush small">
+                <li class="lc-block list-group-item d-flex align-items-center border-0 ps-0 gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                  </svg>
+                  <p class="mb-0">{{ usuario.usuario }}</p>
+                </li>
+                <li class="lc-block list-group-item d-flex align-items-center border-0 ps-0 gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.708 2.825L15 11.105V5.383zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741zM1 11.105l4.708-2.897L1 5.383v5.722z"/>
+                  </svg>
+                  <p class="mb-0">{{ usuario.correo }}</p>
+                </li>
+              </ul>
+            </div>
+            <div class="card-footer bg-gray-50 footerC">
+              <div class="lc-block d-flex align-items-center">
+                <button class="btn btn-primary btn-sm" (click)="confirmarEliminar(usuario)">
+                  Eliminar Usuario?
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
